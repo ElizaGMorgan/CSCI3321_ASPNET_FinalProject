@@ -28,7 +28,7 @@ namespace CSCI3321_ASPNET_FinalProject
             // 2. Create a SqlCommand object using the above connection object
             SqlCommand cmd = new SqlCommand();
             cmd.Connection = conn;
-            cmd.CommandText = "Your SQL statements go there";
+            cmd.CommandText = "SELECT Books.Title, Authors.FirstName, Authors.LastName, Books.Price, Books.PublishDate, Publishers.PublisherName, Genres.GenreName FROM (((Books INNER JOIN Authors ON Books.BookID = Authors.AuthorID) INNER JOIN Publishers ON Books.BookID = Publishers.PublisherID) INNER JOIN Genres ON Books.BookID = Genres.GenreID);";
 
             // 3. Open the connection and execute the command
             // store the returned data in a SqlDataReader object
@@ -39,9 +39,42 @@ namespace CSCI3321_ASPNET_FinalProject
             // then loop through each record to build the table to display the books
             if (reader.HasRows)
             {
-                // Build the table 
-            }
+                while (reader.Read())
+                {
+                    TableRow trow = new TableRow();
+                    TableCell tcolumn = new TableCell();
+                    tcolumn.Text = reader["Title"].ToString();
+                    trow.Cells.Add(tcolumn);
 
+                    tcolumn = new TableCell();
+                    tcolumn.Text = reader["FirstName"].ToString();
+                    trow.Cells.Add(tcolumn);
+
+                    tcolumn = new TableCell();
+                    tcolumn.Text = reader["LastName"].ToString();
+                    trow.Cells.Add(tcolumn);
+
+                    tcolumn = new TableCell();
+                    tcolumn.Text = reader["Price"].ToString();
+                    trow.Cells.Add(tcolumn);
+
+                    tcolumn = new TableCell();
+                    tcolumn.Text = reader["PublishDate"].ToString();
+                    trow.Cells.Add(tcolumn);
+
+                    tcolumn = new TableCell();
+                    tcolumn.Text = reader["PublisherName"].ToString();
+                    trow.Cells.Add(tcolumn);
+
+                    tcolumn = new TableCell();
+                    tcolumn.Text = reader["GenreName"].ToString();
+                    trow.Cells.Add(tcolumn);
+
+                    tblBookCollection.Rows.Add(trow);
+                    // Build the table
+                }
+
+            }
         }
     }
 }
